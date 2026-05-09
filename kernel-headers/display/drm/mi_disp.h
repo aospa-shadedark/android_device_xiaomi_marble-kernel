@@ -321,7 +321,8 @@ struct disp_dsi_cmd_req {
 	__u64 rx_ptr;
 };
 
-static __inline__ int isSupportDispId(__u32 disp_id)
+#if defined(__KERNEL__)
+static inline int is_support_disp_id(__u32 disp_id)
 {
 	if (disp_id < MI_DISP_MAX)
 		return 1;
@@ -329,7 +330,7 @@ static __inline__ int isSupportDispId(__u32 disp_id)
 		return 0;
 }
 
-static __inline__ const char *getDispIdName(__u32 disp_id)
+static inline const char *get_disp_id_name(__u32 disp_id)
 {
 	switch (disp_id) {
 	case MI_DISP_PRIMARY:
@@ -341,7 +342,7 @@ static __inline__ const char *getDispIdName(__u32 disp_id)
 	}
 }
 
-static __inline__ int isSupportDozeBrightness(__u32 doze_brightness)
+static inline int is_support_doze_brightness(__u32 doze_brightness)
 {
 	if (doze_brightness < DOZE_BRIGHTNESS_MAX)
 		return 1;
@@ -349,7 +350,7 @@ static __inline__ int isSupportDozeBrightness(__u32 doze_brightness)
 		return 0;
 }
 
-static __inline__ int isAodBrightness(__u32 doze_brightness)
+static inline int is_aod_brightness(__u32 doze_brightness)
 {
 	if (DOZE_BRIGHTNESS_HBM == doze_brightness ||
 		doze_brightness == DOZE_BRIGHTNESS_LBM)
@@ -358,7 +359,7 @@ static __inline__ int isAodBrightness(__u32 doze_brightness)
 		return 0;
 }
 
-static __inline__ const char *getDozeBrightnessName(__u32 doze_brightness)
+static inline const char *get_doze_brightness_name(__u32 doze_brightness)
 {
 	switch (doze_brightness) {
 	case DOZE_TO_NORMAL:
@@ -372,7 +373,7 @@ static __inline__ const char *getDozeBrightnessName(__u32 doze_brightness)
 	}
 }
 
-static __inline__ int isSupportLcdHbmLevel(__u32 lcd_hbm_level)
+static inline int is_support_lcd_hbm_level(__u32 lcd_hbm_level)
 {
 	if (lcd_hbm_level < LCD_HBM_MAX)
 		return 1;
@@ -380,7 +381,7 @@ static __inline__ int isSupportLcdHbmLevel(__u32 lcd_hbm_level)
 		return 0;
 }
 
-static __inline__ int isSupportDispEventType(__u32 event_type)
+static inline int is_support_disp_event_type(__u32 event_type)
 {
 	if (event_type < MI_DISP_EVENT_MAX)
 		return 1;
@@ -388,7 +389,7 @@ static __inline__ int isSupportDispEventType(__u32 event_type)
 		return 0;
 }
 
-static __inline__ const char *getDispEventTypeName(__u32 event_type)
+static inline const char *get_disp_event_type_name(__u32 event_type)
 {
 	switch (event_type) {
 	case MI_DISP_EVENT_POWER:
@@ -422,7 +423,7 @@ static __inline__ const char *getDispEventTypeName(__u32 event_type)
 	}
 }
 
-static __inline__ int isSupportDispFeatureId(__u32 feature_id)
+static inline int is_support_disp_feature_id(__u32 feature_id)
 {
 	if (feature_id < DISP_FEATURE_MAX)
 		return 1;
@@ -430,7 +431,7 @@ static __inline__ int isSupportDispFeatureId(__u32 feature_id)
 		return 0;
 }
 
-static __inline__ const char *getLocalHbmStateName(int state)
+static inline const char *get_local_hbm_state_name(int state)
 {
 	switch (state) {
 	case LOCAL_HBM_OFF_TO_NORMAL:
@@ -462,7 +463,7 @@ static __inline__ const char *getLocalHbmStateName(int state)
 	}
 }
 
-static __inline__ const char *getFingerprintStatusName(int status)
+static inline const char *get_fingerprint_status_name(int status)
 {
 	switch (status) {
 	case FINGERPRINT_NONE:
@@ -484,7 +485,7 @@ static __inline__ const char *getFingerprintStatusName(int status)
 	}
 }
 
-static __inline__ const char *getDispFeatureIdName(__u32 feature_id)
+static inline const char *get_disp_feature_id_name(__u32 feature_id)
 {
 	switch (feature_id) {
 	case DISP_FEATURE_DIMMING:
@@ -562,7 +563,7 @@ static __inline__ const char *getDispFeatureIdName(__u32 feature_id)
 	}
 }
 
-static __inline__ const char *getLhbmValueName(__u32 lhbm_value)
+static inline const char *get_lhbm_value_name(__u32 lhbm_value)
 {
 	switch (lhbm_value) {
 	case LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP:
@@ -580,6 +581,267 @@ static __inline__ const char *getLhbmValueName(__u32 lhbm_value)
 	}
 }
 
+#else
+static inline int isSupportDispId(__u32 disp_id)
+{
+	if (disp_id < MI_DISP_MAX)
+		return 1;
+	else
+		return 0;
+}
+
+static inline const char *getDispIdName(__u32 disp_id)
+{
+	switch (disp_id) {
+	case MI_DISP_PRIMARY:
+		return "primary";
+	case MI_DISP_SECONDARY:
+		return "secondary";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline int isSupportDozeBrightness(__u32 doze_brightness)
+{
+	if (doze_brightness < DOZE_BRIGHTNESS_MAX)
+		return 1;
+	else
+		return 0;
+}
+
+static inline int isAodBrightness(__u32 doze_brightness)
+{
+	if (DOZE_BRIGHTNESS_HBM == doze_brightness ||
+		doze_brightness == DOZE_BRIGHTNESS_LBM)
+		return 1;
+	else
+		return 0;
+}
+
+static inline const char *getDozeBrightnessName(__u32 doze_brightness)
+{
+	switch (doze_brightness) {
+	case DOZE_TO_NORMAL:
+		return "doze_to_normal";
+	case DOZE_BRIGHTNESS_HBM:
+		return "doze_brightness_high";
+	case DOZE_BRIGHTNESS_LBM:
+		return "doze_brightness_low";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline int isSupportLcdHbmLevel(__u32 lcd_hbm_level)
+{
+	if (lcd_hbm_level < LCD_HBM_MAX)
+		return 1;
+	else
+		return 0;
+}
+
+static inline int isSupportDispEventType(__u32 event_type)
+{
+	if (event_type < MI_DISP_EVENT_MAX)
+		return 1;
+	else
+		return 0;
+}
+
+static inline const char *getDispEventTypeName(__u32 event_type)
+{
+	switch (event_type) {
+	case MI_DISP_EVENT_POWER:
+		return "Power";
+	case MI_DISP_EVENT_BACKLIGHT:
+		return "Backlight";
+	case MI_DISP_EVENT_FOD:
+		return "Fod";
+	case MI_DISP_EVENT_DOZE:
+		return "Doze";
+	case MI_DISP_EVENT_FPS:
+		return "Fps";
+	case MI_DISP_EVENT_BRIGHTNESS_CLONE:
+		return "Brightness_clone";
+	case MI_DISP_EVENT_51_BRIGHTNESS:
+		return "51_brightness";
+	case MI_DISP_EVENT_HBM:
+		return "HBM";
+	case MI_DISP_EVENT_DC:
+		return "DC";
+	case MI_DISP_EVENT_PANEL_DEAD:
+		return "panel_dead";
+	case MI_DISP_EVENT_PANEL_EVENT:
+		return "panel_event";
+	case MI_DISP_EVENT_DDIC_RESOLUTION:
+		return "ddic_resolution";
+	case MI_DISP_EVENT_FLAT_MODE:
+		return "flat_mode";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline int isSupportDispFeatureId(__u32 feature_id)
+{
+	if (feature_id < DISP_FEATURE_MAX)
+		return 1;
+	else
+		return 0;
+}
+
+static inline const char *getLocalHbmStateName(int state)
+{
+	switch (state) {
+	case LOCAL_HBM_OFF_TO_NORMAL:
+		return "[lhbm off to nomal]";
+	case LOCAL_HBM_NORMAL_WHITE_1000NIT:
+		return "[lhbm normal white 1000nit]";
+	case LOCAL_HBM_NORMAL_WHITE_750NIT:
+		return "[lhbm normal white 750nit]";
+	case LOCAL_HBM_NORMAL_WHITE_500NIT:
+		return "[lhbm normal white 500nit]";
+	case LOCAL_HBM_NORMAL_WHITE_110NIT:
+		return "[lhbm normal white 110nit]";
+	case LOCAL_HBM_NORMAL_GREEN_500NIT:
+		return "[lhbm normal green 500nit]";
+	case LOCAL_HBM_HLPM_WHITE_1000NIT:
+		return "[lhbm H-doze to white 1000nit]";
+	case LOCAL_HBM_HLPM_WHITE_110NIT:
+		return "[lhbm H-doze to white 110nit]";
+	case LOCAL_HBM_OFF_TO_HLPM:
+		return "[lhbm off to H-doze]";
+	case LOCAL_HBM_OFF_TO_LLPM:
+		return "[lhbm off to L-doze]";
+	case LOCAL_HBM_OFF_TO_NORMAL_BACKLIGHT:
+		return "[lhbm off to nomal backlight]";
+	case LOCAL_HBM_OFF_TO_NORMAL_BACKLIGHT_RESTORE:
+		return "[lhbm off to nomal backlight restore]";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline const char *getFingerprintStatusName(int status)
+{
+	switch (status) {
+	case FINGERPRINT_NONE:
+		return "none";
+	case ENROLL_START:
+		return "enroll_start";
+	case ENROLL_STOP:
+		return "enroll_stop";
+	case AUTH_START:
+		return "authenticate_start";
+	case AUTH_STOP:
+		return "authenticate_stop";
+	case HEART_RATE_START:
+		return "heart_rate_start";
+	case HEART_RATE_STOP:
+		return "heart_rate_stop";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline const char *getDispFeatureIdName(__u32 feature_id)
+{
+	switch (feature_id) {
+	case DISP_FEATURE_DIMMING:
+		return "dimming";
+	case DISP_FEATURE_HBM:
+		return "hbm";
+	case DISP_FEATURE_HBM_FOD:
+		return "hbm_fod";
+	case DISP_FEATURE_DOZE_BRIGHTNESS:
+		return "doze_brightness";
+	case DISP_FEATURE_FOD_CALIBRATION_BRIGHTNESS:
+		return "fod_calibration_brightness";
+	case DISP_FEATURE_FOD_CALIBRATION_HBM:
+		return "fod_calibration_hbm";
+	case DISP_FEATURE_FLAT_MODE:
+		return "flat_mode";
+	case DISP_FEATURE_CRC:
+		return "crc";
+	case DISP_FEATURE_DC:
+		return "dc_mode";
+	case DISP_FEATURE_LOCAL_HBM:
+		return "local_hbm";
+	case DISP_FEATURE_SENSOR_LUX:
+		return "sensor_lux";
+	case DISP_FEATURE_LOW_BRIGHTNESS_FOD:
+		return "low_brightness_fod";
+	case DISP_FEATURE_FP_STATUS:
+		return "fp_status";
+	case DISP_FEATURE_FOLD_STATUS:
+		return "fold_status";
+	case DISP_FEATURE_NATURE_FLAT_MODE:
+		return "nature_flat_mode";
+	case DISP_FEATURE_SPR_RENDER:
+		return "spr_render";
+	case DISP_FEATURE_AOD_TO_NORMAL:
+		return "aod_to_normal";
+	case DISP_FEATURE_COLOR_INVERT:
+		return "color_invert";
+	case DISP_FEATURE_DC_BACKLIGHT:
+		return "dc_backlight";
+	case DISP_FEATURE_GIR:
+		return "gir";
+	case DISP_FEATURE_DBI:
+		return "dbi";
+	case DISP_FEATURE_DDIC_ROUND_CORNER:
+		return "ddic_round_corner";
+	case DISP_FEATURE_HBM_BACKLIGHT:
+		return "hbm_backlight_level";
+	case DISP_FEATURE_BACKLIGHT:
+		return "backlight";
+	case DISP_FEATURE_BRIGHTNESS:
+		return "brightness";
+	case DISP_FEATURE_LCD_HBM:
+		return "lcd_hbm";
+	case DISP_FEATURE_DOZE_STATE:
+		return "doze_state";
+	case DISP_FEATURE_PEAK_HDR_MODE:
+		return "peak_hdr_mode";
+	case DISP_FEATURE_CABC:
+		return "cabc";
+	case DISP_FEATURE_BIST_MODE:
+		return "bist_mode";
+	case DISP_FEATURE_BIST_MODE_COLOR:
+		return "bist_mode_color";
+	case DISP_FEATURE_ROUND_MODE:
+		return "round_mode";
+	case DISP_FEATURE_GAMUT:
+		return "gamut";
+	case DISP_FEATURE_POWERSTATUS:
+		return "power_status";
+	case DISP_FEATURE_SYSTEM_BUILD_VERSION:
+		return "system_build_version";
+	default:
+		return "Unknown";
+	}
+}
+
+static inline const char *getLhbmValueName(__u32 lhbm_value)
+{
+	switch (lhbm_value) {
+	case LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP:
+		return "LHBM_OFF_FINGER_UP";
+	case LHBM_TARGET_BRIGHTNESS_OFF_AUTH_STOP:
+		return "LHBM_OFF_AUTH_STOP";
+	case LHBM_TARGET_BRIGHTNESS_WHITE_1000NIT:
+		return "LHBM_ON_WHITE_1000NIT";
+	case LHBM_TARGET_BRIGHTNESS_WHITE_110NIT:
+		return "LHBM_ON_WHITE_110NIT";
+	case LHBM_TARGET_BRIGHTNESS_GREEN_500NIT:
+		return "LHBM_ON_GREEN_500NIT";
+	default:
+		return "Unknown";
+	}
+}
+
+#endif
 
 
 #define MI_DISP_FLAG_BLOCK     0x0000

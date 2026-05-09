@@ -17,8 +17,8 @@
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _UAPI__SOUND_USB_STREAM_H
-#define _UAPI__SOUND_USB_STREAM_H
+#ifndef __SOUND_USB_STREAM_H
+#define __SOUND_USB_STREAM_H
 
 #define USB_STREAM_INTERFACE_VERSION 2
 
@@ -74,4 +74,4 @@ enum usb_stream_state {
 	usb_stream_xrun,
 };
 
-#endif /* _UAPI__SOUND_USB_STREAM_H */
+#endif /* __SOUND_USB_STREAM_H */
